@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daur Hidup Makhluk Hidup - IPAS Kelas 3 SD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .slide {
+            display: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .slide.active {
+            display: block;
+        }
+        /* Custom scrollbar for content areas */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+        
+        /* --- ANIMASI LIVE UNTUK HALAMAN HOME --- */
+        @keyframes flap-left {
+            0%, 100% { transform: scaleX(1) rotate(0deg); }
+            50% { transform: scaleX(0.2) rotate(-5deg); }
+        }
+        @keyframes flap-right {
+            0%, 100% { transform: scaleX(1) rotate(0deg); }
+            50% { transform: scaleX(0.2) rotate(5deg); }
+        }
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        @keyframes sway-gentle {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(4deg) translateY(-2px); }
+        }
+        @keyframes crawl-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05) translateY(1px); }
+        }
+        @keyframes particle-fade {
+            0%, 100% { opacity: 0.3; transform: translateY(0) scale(1); }
+            50% { opacity: 0.9; transform: translateY(-8px) scale(1.2); }
+        }
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+        }
+        
+        .animate-flap-left {
+            animation: flap-left 0.7s ease-in-out infinite;
+            transform-origin: 40px 60px;
+        }
+        .animate-flap-right {
+            animation: flap-right 0.7s ease-in-out infinite;
+            transform-origin: 40px 60px;
+        }
+        .animate-float {
+            animation: float-gentle 4s ease-in-out infinite;
+        }
+        .animate-sway {
+            animation: sway-gentle 6s ease-in-out infinite;
+        }
+        .animate-crawl {
+            animation: crawl-subtle 2s ease-in-out infinite;
+        }
+        .animate-p1 { animation: particle-fade 3s ease-in-out infinite; }
+        .animate-p2 { animation: particle-fade 4.5s ease-in-out infinite 1s; }
+        .animate-p3 { animation: particle-fade 3.5s ease-in-out infinite 1.5s; }
+        
+        .btn-pulse-trigger {
+            animation: pulse-btn 2s infinite;
+        }
+
+        /* Shake animation for errors */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-emerald-50 text-slate-800 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- TOP HEADER BAR -->
+    <header class="bg-emerald-600 text-white shadow-md px-4 py-3 sticky top-0 z-50 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <i data-lucide="leaf" class="w-6 h-6 text-emerald-200 animate-pulse"></i>
+            <span class="font-bold text-sm md:text-lg tracking-wide">IPAS Kelas 3 SD: Daur Hidup</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button id="btn-menu-header" onclick="goToSlide(2)" class="hidden bg-emerald-700 hover:bg-emerald-800 text-white text-xs md:text-sm px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all">
+                <i data-lucide="menu" class="w-4 h-4"></i> Menu Utama
+            </button>
+            <button id="btn-fullscreen" onclick="toggleFullscreen()" class="bg-emerald-700 hover:bg-emerald-800 text-white p-1.5 rounded-lg transition-all" title="Perbesar Layar">
+                <i data-lucide="maximize" id="fullscreen-icon" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN LEARNING FRAME -->
+    <main id="learning-container" class="flex-grow flex items-center justify-center p-3 md:p-6">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-5xl border border-emerald-100 overflow-hidden relative min-h-[580px] flex flex-col justify-between">
+            
+            <!-- PROGRESS BAR -->
+            <div class="w-full bg-emerald-100 h-1.5">
+                <div id="progress-indicator" class="bg-emerald-500 h-1.5 transition-all duration-300" style="width: 6.25%"></div>
+            </div>
+
+            <!-- SLIDE CONTAINER -->
+            <div class="p-4 md:p-8 flex-grow">
+
+                <!-- 1. COVER / HALAMAN JUDUL -->
+                <div id="slide-1" class="slide active">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-4">
+                        <div class="text-left space-y-6">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1.5 rounded-full text-xs uppercase tracking-wider inline-block animate-bounce">Modul Pembelajaran Interaktif</span>
+                            <h1 class="text-3xl md:text-5xl font-black text-emerald-800 leading-tight">Daur Hidup<br><span class="text-emerald-500">Makhluk Hidup</span></h1>
+                            <p class="text-slate-600 text-sm md:text-base">Mari belajar bagaimana hewan dan tumbuhan tumbuh dan berkembang dari kecil hingga dewasa dengan cara yang seru dan menyenangkan!</p>
+                            
+                            <div class="p-3 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg transition-all hover:scale-105 duration-300">
+                                <p class="text-xs text-slate-500">Pembuat Media:</p>
+                                <p class="font-semibold text-slate-800 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-4 h-4 text-emerald-600 animate-pulse"></i> I Gede Yokta Pradana
+                                </p>
+                            </div>
+
+                            <button onclick="goToSlide(2)" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-emerald-200 transition-all flex items-center justify-center gap-2 text-lg btn-pulse-trigger transform hover:scale-105 duration-300">
+                                Mulai Belajar <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-center relative">
+                            <!-- SVG Cover Illustration: Daur Hidup SUPER LIVE -->
+                            <svg viewBox="0 0 400 400" class="w-72 h-72 md:w-96 md:h-96 drop-shadow-xl">
+                                <!-- Lingkaran Latar Belakang -->
+                                <circle cx="200" cy="200" r="180" fill="#f0fdf4"/>
+                                <circle cx="200" cy="200" r="155" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="12 12" class="animate-[spin_180s_linear_infinite]"/>
+                                <circle cx="200" cy="200" r="145" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="6 6" class="animate-[spin_90s_linear_infinite]"/>
+
+                                <!-- Partikel Cahaya Berkedip (Pollen/Glow) -->
+                                <circle cx="100" cy="120" r="4" fill="#fbbf24" class="animate-p1"/>
+                                <circle cx="310" cy="150" r="6" fill="#f59e0b" class="animate-p2"/>
+                                <circle cx="290" cy="280" r="3" fill="#fbbf24" class="animate-p3"/>
+                                <circle cx="120" cy="310" r="5" fill="#34d399" class="animate-p1"/>
+                                <circle cx="220" cy="80" r="4.5" fill="#fcd34d" class="animate-p2"/>
+
+                                <!-- Grup Daun di Latar Belakang (Goyang) -->
+                                <g class="animate-sway" style="transform-origin: 110px 280px;">
+                                    <!-- Daun Hijau Besar -->
+                                    <path d="M70 260 C110 210, 180 250, 150 300 C110 320, 60 300, 70 260 Z" fill="#34d399"/>
+                                    <path d="M70 260 Q110 280, 150 300" stroke="#047857" stroke-width="2.5" fill="none"/>
+                                    <!-- Daun Hijau Kecil -->
+                                    <path d="M140 280 C165 240, 210 270, 190 310 C160 320, 130 300, 140 280 Z" fill="#10b981" opacity="0.9"/>
+                                    <path d="M140 280 Q165 295, 190 310" stroke="#065f46" stroke-width="1.5" fill="none"/>
+                                </g>
+
+                                <!-- Caterpillar / Ulat di atas daun (Menggeliat/Napas) -->
+                                <g class="animate-crawl" style="transform-origin: 200px 270px;">
+                                    <!-- Segmen Tubuh Ulat -->
+                                    <circle cx="160" cy="275" r="10" fill="#a7f3d0" stroke="#047857" stroke-width="1.5"/>
+                                    <circle cx="174" cy="272" r="11" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                                    <circle cx="189" cy="269" r="12" fill="#059669" stroke="#047857" stroke-width="1.5"/>
+                                    <circle cx="205" cy="267" r="11" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+                                    <circle cx="220" cy="266" r="12" fill="#059669" stroke="#047857" stroke-width="1.5"/>
+                                    <!-- Kepala Ulat -->
+                                    <circle cx="234" cy="262" r="13" fill="#34d399" stroke="#047857" stroke-width="2"/>
+                                    <!-- Mata -->
+                                    <circle cx="230" cy="258" r="2.5" fill="#1e1b4b"/>
+                                    <circle cx="238" cy="258" r="2.5" fill="#1e1b4b"/>
+                                    <!-- Senyum Pipit -->
+                                    <path d="M231 266 Q234 269, 237 266" stroke="#047857" stroke-width="1.5" fill="none"/>
+                                    <!-- Antena Kepala -->
+                                    <path d="M228 250 Q225 240, 221 243" stroke="#047857" stroke-width="1.5" fill="none"/>
+                                    <path d="M236 250 Q239 240, 243 243" stroke="#047857" stroke-width="1.5" fill="none"/>
+                                    <circle cx="221" cy="243" r="1.5" fill="#fbbf24"/>
+                                    <circle cx="243" cy="243" r="1.5" fill="#fbbf24"/>
+                                </g>
+
+                                <!-- Kupu-kupu Utama Melayang & Mengepak -->
+                                <g class="animate-float" style="transform-origin: 200px 140px;">
+                                    <g transform="translate(145, 90)">
+                                        <!-- Sayap Kiri Atas (Mengepak) -->
+                                        <path d="M 50 50 C 20 10, -5 20, 15 65 C 5 75, 10 90, 50 70 Z" fill="#f59e0b" stroke="#78350f" stroke-width="2" class="animate-flap-left" />
+                                        <!-- Sayap Kiri Bawah -->
+                                        <path d="M 50 65 C 25 75, 15 90, 35 105 C 50 100, 50 80, 50 65 Z" fill="#d97706" stroke="#78350f" stroke-width="1.5" class="animate-flap-left" />
+                                        
+                                        <!-- Sayap Kanan Atas (Mengepak) -->
+                                        <path d="M 50 50 C 80 10, 105 20, 85 65 C 95 75, 90 90, 50 70 Z" fill="#f59e0b" stroke="#78350f" stroke-width="2" class="animate-flap-right" />
+                                        <!-- Sayap Kanan Bawah -->
+                                        <path d="M 50 65 C 75 75, 85 90, 65 105 C 50 100, 50 80, 50 65 Z" fill="#d97706" stroke="#78350f" stroke-width="1.5" class="animate-flap-right" />
+                                        
+                                        <!-- Tubuh Tengah Kupu-Kupu -->
+                                        <ellipse cx="50" cy="70" rx="4" ry="22" fill="#451a03" />
+                                        <!-- Kepala -->
+                                        <circle cx="50" cy="45" r="6" fill="#451a03" />
+                                        <!-- Antena -->
+                                        <path d="M48 40 Q40 25, 33 28" stroke="#451a03" stroke-width="1.5" fill="none"/>
+                                        <path d="M52 40 Q60 25, 67 28" stroke="#451a03" stroke-width="1.5" fill="none"/>
+                                        <circle cx="33" cy="28" r="1.5" fill="#f59e0b"/>
+                                        <circle cx="67" cy="28" r="1.5" fill="#f59e0b"/>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. MENU UTAMA -->
+                <div id="slide-2" class="slide">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl md:text-3.5xl font-extrabold text-emerald-800">Daftar Menu Pembelajaran</h2>
+                        <p class="text-slate-600 text-sm mt-1">Pilih materi atau aktivitas seru yang ingin kamu pelajari hari ini!</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 py-2">
+                        <!-- Menu 1 -->
+                        <button onclick="goToSlide(3)" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-emerald-500 group-hover:bg-emerald-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="target" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-emerald-800 text-sm md:text-base">Tujuan Belajar</span>
+                        </button>
+
+                        <!-- Menu 2 -->
+                        <button onclick="goToSlide(4)" class="bg-teal-50 hover:bg-teal-100 border border-teal-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-teal-500 group-hover:bg-teal-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="git-fork" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-teal-800 text-sm md:text-base">Peta Konsep</span>
+                        </button>
+
+                        <!-- Menu 3 -->
+                        <button onclick="goToSlide(5)" class="bg-sky-50 hover:bg-sky-100 border border-sky-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-sky-500 group-hover:bg-sky-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="book-open" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-sky-800 text-sm md:text-base">Materi Inti</span>
+                        </button>
+
+                        <!-- Menu 4 -->
+                        <button onclick="goToSlide(8)" class="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-indigo-500 group-hover:bg-indigo-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="youtube" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-indigo-800 text-sm md:text-base">Video Belajar</span>
+                        </button>
+
+                        <!-- Menu 5 -->
+                        <button onclick="goToSlide(9)" class="bg-orange-50 hover:bg-orange-100 border border-orange-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-orange-500 group-hover:bg-orange-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="cpu" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-orange-800 text-sm md:text-base">Simulasi Daur</span>
+                        </button>
+
+                        <!-- Menu 6 -->
+                        <button onclick="goToSlide(10)" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-purple-500 group-hover:bg-purple-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="gamepad-2" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-purple-800 text-sm md:text-base">Game Edukasi</span>
+                        </button>
+
+                        <!-- Menu 7 -->
+                        <button onclick="goToSlide(14)" class="bg-pink-50 hover:bg-pink-100 border border-pink-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-pink-500 group-hover:bg-pink-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="award" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-pink-800 text-sm md:text-base">Kuis Evaluasi</span>
+                        </button>
+
+                        <!-- Menu 8 -->
+                        <button onclick="goToSlide(15)" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-5 rounded-2xl flex flex-col items-center justify-center text-center group transition-all transform hover:-translate-y-1">
+                            <div class="bg-blue-500 group-hover:bg-blue-600 text-white p-4 rounded-xl mb-3 shadow-md transition-all">
+                                <i data-lucide="bookmark" class="w-8 h-8"></i>
+                            </div>
+                            <span class="font-bold text-blue-800 text-sm md:text-base">Rangkuman</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. TUJUAN PEMBELAJARAN -->
+                <div id="slide-3" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="target" class="w-7 h-7 text-emerald-600"></i> Tujuan Pembelajaran
+                    </h2>
+                    <p class="text-slate-600 text-sm mb-6">Berdasarkan Kurikulum Merdeka IPAS Fase B Kelas 3, setelah menyelesaikan media pembelajaran ini diharapkan siswa dapat:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-emerald-50 border-t-4 border-emerald-500 p-6 rounded-xl shadow-sm">
+                            <div class="text-3xl font-bold text-emerald-500 mb-2">01</div>
+                            <h4 class="font-bold text-emerald-800 text-base mb-2">Mengidentifikasi Tahapan</h4>
+                            <p class="text-slate-600 text-sm">Siswa mampu menjelaskan berbagai tahapan daur hidup hewan dan tumbuhan di sekitarnya dengan tepat.</p>
+                        </div>
+                        <div class="bg-emerald-50 border-t-4 border-emerald-500 p-6 rounded-xl shadow-sm">
+                            <div class="text-3xl font-bold text-emerald-500 mb-2">02</div>
+                            <h4 class="font-bold text-emerald-800 text-base mb-2">Menganalisis Perbedaan</h4>
+                            <p class="text-slate-600 text-sm">Siswa mampu membedakan metamorfosis sempurna, metamorfosis tidak sempurna, dan daur hidup tanpa metamorfosis.</p>
+                        </div>
+                        <div class="bg-emerald-50 border-t-4 border-emerald-500 p-6 rounded-xl shadow-sm">
+                            <div class="text-3xl font-bold text-emerald-500 mb-2">03</div>
+                            <h4 class="font-bold text-emerald-800 text-base mb-2">Menumbuhkan Rasa Kepedulian</h4>
+                            <p class="text-slate-600 text-sm">Siswa menghargai keberadaan makhluk hidup di sekitarnya dengan menjaga kelestarian lingkungan tempat hidup mereka.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. PETA KONSEP -->
+                <div id="slide-4" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="git-fork" class="w-7 h-7 text-emerald-600"></i> Peta Konsep Pembelajaran
+                    </h2>
+                    <p class="text-slate-600 text-sm mb-6">Pahami alur topik besar "Daur Hidup Makhluk Hidup" melalui mind map sederhana berikut:</p>
+
+                    <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 flex justify-center items-center">
+                        <svg viewBox="0 0 800 380" class="w-full max-w-4xl h-auto">
+                            <!-- Hubungan Garis -->
+                            <path d="M400 60 L400 120 M400 120 L180 200 M400 120 L400 200 M400 120 L620 200" stroke="#059669" stroke-width="3" fill="none"/>
+                            
+                            <!-- Sub Hubungan 1 -->
+                            <path d="M180 240 L180 300" stroke="#059669" stroke-dasharray="4" stroke-width="2" fill="none"/>
+                            <!-- Sub Hubungan 2 -->
+                            <path d="M400 240 L400 300" stroke="#059669" stroke-dasharray="4" stroke-width="2" fill="none"/>
+                            <!-- Sub Hubungan 3 -->
+                            <path d="M620 240 L620 300" stroke="#059669" stroke-dasharray="4" stroke-width="2" fill="none"/>
+
+                            <!-- Main Node: Daur Hidup Makhluk Hidup -->
+                            <rect x="250" y="10" width="300" height="60" rx="15" fill="#047857" class="filter drop-shadow-md"/>
+                            <text x="400" y="47" font-weight="bold" fill="#ffffff" font-size="16" text-anchor="middle">DAUR HIDUP MAKHLUK HIDUP</text>
+
+                            <!-- Node 1: Tanpa Metamorfosis -->
+                            <rect x="70" y="180" width="220" height="60" rx="10" fill="#10b981" class="filter drop-shadow-sm"/>
+                            <text x="180" y="215" font-weight="bold" fill="#ffffff" font-size="13" text-anchor="middle">1. Tanpa Metamorfosis</text>
+
+                            <!-- Node 2: Metamorfosis Sempurna -->
+                            <rect x="290" y="180" width="220" height="60" rx="10" fill="#059669" class="filter drop-shadow-sm"/>
+                            <text x="400" y="215" font-weight="bold" fill="#ffffff" font-size="13" text-anchor="middle">2. Metamorfosis Sempurna</text>
+
+                            <!-- Node 3: Metamorfosis Tdk Sempurna -->
+                            <rect x="510" y="180" width="220" height="60" rx="10" fill="#10b981" class="filter drop-shadow-sm"/>
+                            <text x="620" y="215" font-weight="bold" fill="#ffffff" font-size="13" text-anchor="middle">3. Metamorfosis Tidak Sempurna</text>
+
+                            <!-- Detail 1 -->
+                            <rect x="70" y="295" width="220" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+                            <text x="180" y="325" font-weight="600" fill="#047857" font-size="12" text-anchor="middle">Contoh: Kucing, Ayam, Anjing</text>
+
+                            <!-- Detail 2 -->
+                            <rect x="290" y="295" width="220" height="50" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+                            <text x="400" y="325" font-weight="600" fill="#047857" font-size="12" text-anchor="middle">Contoh: Kupu-kupu, Katak</text>
+
+                            <!-- Detail 3 -->
+                            <rect x="510" y="295" width="220" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+                            <text x="620" y="325" font-weight="600" fill="#047857" font-size="12" text-anchor="middle">Contoh: Belalang, Kecoak</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 5. MATERI INTI - SLIDE 1 (Tanpa Metamorfosis) -->
+                <div id="slide-5" class="slide">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">Materi Bagian 1</span>
+                            <h3 class="text-2xl font-extrabold text-emerald-800">Daur Hidup Tanpa Metamorfosis</h3>
+                            <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                Halo Adik-adip! Tahukah kamu? Ada hewan yang sejak lahir hingga dewasa bentuk tubuhnya **selalu sama** dan tidak mengalami perubahan bentuk yang ekstrem. Hewan ini hanya mengalami pertumbuhan ukuran tubuh menjadi makin besar dan dewasa.
+                            </p>
+                            <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-500">
+                                <h4 class="font-bold text-emerald-800 text-sm flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Contoh Nyata Sekitar Kita:
+                                </h4>
+                                <p class="text-slate-600 text-xs mt-1">Anak kucing lahir sangat kecil dan menyusu pada induknya. Lama-kelamaan ia tumbuh menjadi kucing remaja, lalu menjadi kucing dewasa yang berukuran besar namun bentuknya tetap seekor kucing!</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <!-- Ilustrasi Kucing (Tanpa Metamorfosis) -->
+                            <svg viewBox="0 0 200 150" class="w-48 h-36">
+                                <!-- Anak Kucing -->
+                                <g transform="translate(20, 50) scale(0.6)">
+                                    <ellipse cx="60" cy="80" rx="30" ry="20" fill="#f59e0b" />
+                                    <circle cx="80" cy="50" r="18" fill="#f59e0b" />
+                                    <!-- Telinga -->
+                                    <polygon points="68,36 78,16 86,34" fill="#b45309" />
+                                    <!-- Ekor -->
+                                    <path d="M30 80 Q10 70, 20 50" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" fill="none"/>
+                                    <!-- Kaki -->
+                                    <rect x="40" y="95" width="8" height="15" rx="4" fill="#d97706" />
+                                    <rect x="65" y="95" width="8" height="15" rx="4" fill="#d97706" />
+                                </g>
+                                <!-- Tanda Panah -->
+                                <path d="M75 75 L110 75" stroke="#059669" stroke-width="3" marker-end="url(#arrow)" fill="none" stroke-linecap="round"/>
+                                <!-- Kucing Dewasa -->
+                                <g transform="translate(100, 30)">
+                                    <ellipse cx="60" cy="80" rx="40" ry="28" fill="#f59e0b" />
+                                    <circle cx="85" cy="45" r="24" fill="#f59e0b" />
+                                    <!-- Telinga -->
+                                    <polygon points="70,26 82,2 92,24" fill="#b45309" />
+                                    <polygon points="85,26 95,2 102,24" fill="#b45309" />
+                                    <!-- Ekor -->
+                                    <path d="M20 80 Q0 60, 10 30" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                    <!-- Kaki -->
+                                    <rect x="35" y="100" width="12" height="25" rx="6" fill="#d97706" />
+                                    <rect x="70" y="100" width="12" height="25" rx="6" fill="#d97706" />
+                                </g>
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                      <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <span class="text-xs font-bold text-emerald-800 mt-2">Daur Hidup Kucing (Anak -> Dewasa)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. MATERI INTI - SLIDE 2 (Metamorfosis Sempurna) -->
+                <div id="slide-6" class="slide">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">Materi Bagian 2</span>
+                            <h3 class="text-2xl font-extrabold text-emerald-800">Metamorfosis Sempurna</h3>
+                            <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                Berbeda dengan kucing, beberapa hewan mengalami perubahan bentuk tubuh yang **sangat drastis dan berbeda** di setiap tahap pertumbuhannya. Proses ini disebut **Metamorfosis Sempurna**. Ciri utamanya adalah melewati fase pupa (kepompong).
+                            </p>
+                            <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-500">
+                                <h4 class="font-bold text-emerald-800 text-sm flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Contoh Nyata Sekitar Kita:
+                                </h4>
+                                <p class="text-slate-600 text-xs mt-1">Daur hidup kupu-kupu dimulai dari **Telur**, lalu berubah menjadi **Ulat (Larva)** yang rakus makan daun, menjadi **Kepompong (Pupa)** yang diam beristirahat, dan akhirnya keluar menjadi **Kupu-kupu** indah!</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <!-- Ilustrasi Metamorfosis Kupu-Kupu -->
+                            <svg viewBox="0 0 220 200" class="w-52 h-48">
+                                <!-- Hubungan Melingkar -->
+                                <path d="M 110 30 A 70 70 0 1 1 109 30" fill="none" stroke="#34d399" stroke-width="2" stroke-dasharray="6 6"/>
+                                
+                                <!-- Telur (Atas) -->
+                                <circle cx="110" cy="30" r="14" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+                                <text x="110" y="55" font-size="10" font-weight="bold" fill="#854d0e" text-anchor="middle">1. Telur</text>
+
+                                <!-- Ulat (Kanan) -->
+                                <g transform="translate(155, 100) scale(0.6)">
+                                    <ellipse cx="30" cy="10" rx="20" ry="10" fill="#10b981"/>
+                                    <circle cx="45" cy="5" r="4" fill="#f59e0b"/>
+                                </g>
+                                <text x="180" y="125" font-size="10" font-weight="bold" fill="#047857" text-anchor="middle">2. Ulat</text>
+
+                                <!-- Kepompong (Bawah) -->
+                                <g transform="translate(95, 140)">
+                                    <path d="M 15 5 C 5 5, 0 15, 15 35 C 30 15, 25 5, 15 5 Z" fill="#b45309"/>
+                                </g>
+                                <text x="110" y="192" font-size="10" font-weight="bold" fill="#78350f" text-anchor="middle">3. Kepompong</text>
+
+                                <!-- Kupu-Kupu (Kiri) -->
+                                <g transform="translate(20, 90) scale(0.5)">
+                                    <path d="M40 50 C20 20, 10 30, 40 60 C10 80, 20 100, 40 70 Z" fill="#3b82f6" />
+                                    <path d="M40 50 C60 20, 70 30, 40 60 C70 80, 60 100, 40 70 Z" fill="#3b82f6" />
+                                </g>
+                                <text x="40" y="125" font-size="10" font-weight="bold" fill="#1d4ed8" text-anchor="middle">4. Dewasa</text>
+                            </svg>
+                            <span class="text-xs font-bold text-emerald-800 mt-2">Siklus Metamorfosis Sempurna</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. MATERI INTI - SLIDE 3 (Metamorfosis Tidak Sempurna) -->
+                <div id="slide-7" class="slide">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs">Materi Bagian 3</span>
+                            <h3 class="text-2xl font-extrabold text-emerald-800">Metamorfosis Tidak Sempurna</h3>
+                            <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                                Berbeda dengan kupu-kupu, ada hewan yang mengalami metamorfosis namun perubahannya **tidak terlalu mencolok**. Hewan kecil yang baru menetas mirip dengan induknya tetapi berukuran mini dan belum bersayap (disebut **Nimfa**). Kelompok ini **tidak melalui tahapan kepompong**.
+                            </p>
+                            <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-500">
+                                <h4 class="font-bold text-emerald-800 text-sm flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Contoh Nyata Sekitar Kita:
+                                </h4>
+                                <p class="text-slate-600 text-xs mt-1">Belalang dewasa bertelur di tanah. Ketika menetas, keluarlah belalang muda (nimfa) kecil tak bersayap. Nimfa terus bertumbuh besar, berganti kulit berkali-kali, tumbuh sayap, hingga akhirnya menjadi belalang dewasa!</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <!-- Ilustrasi Belalang (Metamorfosis Tidak Sempurna) -->
+                            <svg viewBox="0 0 200 150" class="w-48 h-36">
+                                <!-- Telur Belalang -->
+                                <g transform="translate(10, 60) scale(0.6)">
+                                    <ellipse cx="30" cy="50" rx="14" ry="7" fill="#fef08a" stroke="#ca8a04"/>
+                                    <ellipse cx="40" cy="60" rx="14" ry="7" fill="#fef08a" stroke="#ca8a04"/>
+                                </g>
+                                <text x="30" y="110" font-size="10" font-weight="bold" fill="#854d0e" text-anchor="middle">1. Telur</text>
+
+                                <!-- Arrow 1 -->
+                                <path d="M 50 65 Q 70 55, 80 55" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+                                <!-- Nimfa Belalang -->
+                                <g transform="translate(70, 40) scale(0.7)">
+                                    <ellipse cx="40" cy="50" rx="20" ry="10" fill="#a7f3d0"/>
+                                    <!-- Kaki belakang khas belalang -->
+                                    <path d="M 30 50 L 15 25 L 10 55" stroke="#10b981" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                    <circle cx="50" cy="45" r="4" fill="#047857"/>
+                                </g>
+                                <text x="100" y="110" font-size="10" font-weight="bold" fill="#047857" text-anchor="middle">2. Nimfa</text>
+
+                                <!-- Arrow 2 -->
+                                <path d="M 120 65 Q 140 55, 145 55" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+
+                                <!-- Belalang Dewasa -->
+                                <g transform="translate(130, 30) scale(0.9)">
+                                    <ellipse cx="40" cy="50" rx="30" ry="12" fill="#34d399"/>
+                                    <!-- Sayap -->
+                                    <path d="M 20 42 C 30 35, 60 35, 65 48 C 55 52, 25 50, 20 42 Z" fill="#059669"/>
+                                    <!-- Kaki belakang -->
+                                    <path d="M 30 50 L 10 15 L 5 55" stroke="#047857" stroke-width="5" stroke-linecap="round" fill="none"/>
+                                    <circle cx="58" cy="45" r="5" fill="#064e3b"/>
+                                </g>
+                                <text x="165" y="110" font-size="10" font-weight="bold" fill="#064e3b" text-anchor="middle">3. Dewasa</text>
+                            </svg>
+                            <span class="text-xs font-bold text-emerald-800 mt-2">Daur Hidup Belalang</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. VIDEO PEMBELAJARAN -->
+                <div id="slide-8" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="youtube" class="w-7 h-7 text-red-500"></i> Video Pembelajaran Interaktif
+                    </h2>
+                    <p class="text-slate-600 text-sm mb-6">Tonton video interaktif di bawah ini untuk melihat keindahan proses daur hidup kupu-kupu secara nyata!</p>
+
+                    <div class="relative w-full pb-[56.25%] rounded-2xl overflow-hidden shadow-lg bg-black border-4 border-emerald-100">
+                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/P7Q9qst71Fc" title="Daur Hidup Kupu Kupu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- 9. SIMULASI / ANIMASI INTERAKTIF -->
+                <div id="slide-9" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-7 h-7 text-emerald-600"></i> Laboratorium Simulasi Daur Hidup
+                    </h2>
+                    <p class="text-slate-600 text-sm mb-6">Gunakan slider interaktif di bawah untuk melihat animasi tahapan perubahan metamorfosis sempurna kupu-kupu!</p>
+
+                    <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-100 flex flex-col md:flex-row gap-8 items-center justify-between">
+                        <!-- Sisi Animasi SVG -->
+                        <div class="w-full md:w-1/2 flex flex-col items-center justify-center bg-white p-6 rounded-xl border border-emerald-100 shadow-sm min-h-[260px]">
+                            <div id="sim-illustration-box" class="transition-all duration-300">
+                                <!-- Animasi Dinamis SVG akan dimasukkan lewat JS -->
+                            </div>
+                            <span id="sim-stage-title" class="text-xl font-bold text-emerald-800 mt-4">---</span>
+                            <p id="sim-stage-desc" class="text-slate-600 text-xs text-center mt-2 max-w-sm">---</p>
+                        </div>
+
+                        <!-- Sisi Kontrol / Slider -->
+                        <div class="w-full md:w-1/2 space-y-6">
+                            <div class="space-y-2">
+                                <label for="sim-slider" class="block font-bold text-emerald-800 text-sm md:text-base">Geser Slider Untuk Mengubah Tahapan:</label>
+                                <input type="range" id="sim-slider" min="1" max="4" value="1" oninput="updateSimulation(this.value)" class="w-full h-3 bg-emerald-200 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                                <div class="flex justify-between text-xs font-bold text-emerald-700 px-1">
+                                    <span>Telur</span>
+                                    <span>Ulat</span>
+                                    <span>Kepompong</span>
+                                    <span>Kupu Dewasa</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="updateSimulation(1)" class="sim-btn bg-emerald-500 text-white font-bold p-2 text-xs rounded-lg shadow hover:bg-emerald-600">Fase 1</button>
+                                <button onclick="updateSimulation(2)" class="sim-btn bg-emerald-100 text-emerald-800 font-bold p-2 text-xs rounded-lg hover:bg-emerald-200">Fase 2</button>
+                                <button onclick="updateSimulation(3)" class="sim-btn bg-emerald-100 text-emerald-800 font-bold p-2 text-xs rounded-lg hover:bg-emerald-200">Fase 3</button>
+                                <button onclick="updateSimulation(4)" class="sim-btn bg-emerald-100 text-emerald-800 font-bold p-2 text-xs rounded-lg hover:bg-emerald-200">Fase 4</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. GAME EDUKASI 1: DRAG & DROP (Cocokkan Hewan & Tipe Daur Hidup) -->
+                <div id="slide-10" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-7 h-7 text-purple-600"></i> Game 1: Mencocokkan Daur Hidup
+                    </h2>
+                    <p class="text-slate-600 text-xs md:text-sm mb-4">Seret/Drag kotak hewan di bawah dan masukkan ke dalam wadah jenis daur hidup yang tepat!</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 py-2">
+                        <!-- Kotak Hewan (Draggable) -->
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200">
+                            <span class="block font-bold text-purple-800 text-sm mb-3">Pilihan Hewan (Geser ini!):</span>
+                            <div class="flex flex-wrap gap-3" id="drag-items-container">
+                                <div draggable="true" ondragstart="drag(event)" id="drag-kucing" data-type="tanpa" class="bg-white hover:bg-purple-100 border-2 border-purple-300 px-4 py-2 rounded-xl font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-1">🐈 Kucing</div>
+                                <div draggable="true" ondragstart="drag(event)" id="drag-kupu" data-type="sempurna" class="bg-white hover:bg-purple-100 border-2 border-purple-300 px-4 py-2 rounded-xl font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-1">🦋 Kupu-kupu</div>
+                                <div draggable="true" ondragstart="drag(event)" id="drag-belalang" data-type="tidak-sempurna" class="bg-white hover:bg-purple-100 border-2 border-purple-300 px-4 py-2 rounded-xl font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-1">🦗 Belalang</div>
+                                <div draggable="true" ondragstart="drag(event)" id="drag-katak" data-type="sempurna" class="bg-white hover:bg-purple-100 border-2 border-purple-300 px-4 py-2 rounded-xl font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-1">🐸 Katak</div>
+                                <div draggable="true" ondragstart="drag(event)" id="drag-ayam" data-type="tanpa" class="bg-white hover:bg-purple-100 border-2 border-purple-300 px-4 py-2 rounded-xl font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing flex items-center gap-1">🐓 Ayam</div>
+                            </div>
+                        </div>
+
+                        <!-- Wadah Penampung (Dropzone) -->
+                        <div class="space-y-3">
+                            <!-- Dropzone 1 -->
+                            <div ondragover="allowDrop(event)" ondrop="drop(event, 'tanpa')" class="bg-emerald-50 border-2 border-dashed border-emerald-300 p-4 rounded-xl flex flex-col justify-center min-h-[90px] transition-all">
+                                <span class="font-bold text-emerald-800 text-xs md:text-sm">📥 Tanpa Metamorfosis:</span>
+                                <div class="flex flex-wrap gap-2 mt-2 dropzone-inner" id="zone-tanpa"></div>
+                            </div>
+                            <!-- Dropzone 2 -->
+                            <div ondragover="allowDrop(event)" ondrop="drop(event, 'sempurna')" class="bg-sky-50 border-2 border-dashed border-sky-300 p-4 rounded-xl flex flex-col justify-center min-h-[90px] transition-all">
+                                <span class="font-bold text-sky-800 text-xs md:text-sm">📥 Metamorfosis Sempurna:</span>
+                                <div class="flex flex-wrap gap-2 mt-2 dropzone-inner" id="zone-sempurna"></div>
+                            </div>
+                            <!-- Dropzone 3 -->
+                            <div ondragover="allowDrop(event)" ondrop="drop(event, 'tidak-sempurna')" class="bg-orange-50 border-2 border-dashed border-orange-300 p-4 rounded-xl flex flex-col justify-center min-h-[90px] transition-all">
+                                <span class="font-bold text-orange-800 text-xs md:text-sm">📥 Metamorfosis Tidak Sempurna:</span>
+                                <div class="flex flex-wrap gap-2 mt-2 dropzone-inner" id="zone-tidak-sempurna"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <button onclick="resetGame1()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-lg text-xs md:text-sm">Ulangi Game</button>
+                        <button onclick="checkGame1()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs md:text-sm">Cek Jawaban</button>
+                    </div>
+                </div>
+
+                <!-- 11. GAME EDUKASI 2: DRAG THE WORDS -->
+                <div id="slide-11" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-7 h-7 text-purple-600"></i> Game 2: Seret Kata Rumpang
+                    </h2>
+                    <p class="text-slate-600 text-xs md:text-sm mb-4">Seret kata-kata di bawah ini dan letakkan ke dalam kotak rumpang di dalam paragraf daur hidup kupu-kupu yang tepat!</p>
+
+                    <!-- Pilihan Kata (Draggable) -->
+                    <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mb-6">
+                        <div class="flex flex-wrap gap-3" id="drag-words-pool">
+                            <span draggable="true" ondragstart="dragWord(event)" id="word-telur" class="bg-white hover:bg-purple-100 border border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs md:text-sm">Telur</span>
+                            <span draggable="true" ondragstart="dragWord(event)" id="word-ulat" class="bg-white hover:bg-purple-100 border border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs md:text-sm">Ulat</span>
+                            <span draggable="true" ondragstart="dragWord(event)" id="word-kepompong" class="bg-white hover:bg-purple-100 border border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs md:text-sm">Kepompong</span>
+                            <span draggable="true" ondragstart="dragWord(event)" id="word-sempurna" class="bg-white hover:bg-purple-100 border border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs md:text-sm">Sempurna</span>
+                            <span draggable="true" ondragstart="dragWord(event)" id="word-kupu" class="bg-white hover:bg-purple-100 border border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs md:text-sm">Kupu-kupu</span>
+                        </div>
+                    </div>
+
+                    <!-- Paragraf Rumpang -->
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 text-sm md:text-base leading-loose text-slate-800">
+                        Kupu-kupu mengalami jenis metamorfosis 
+                        <span ondragover="allowDrop(event)" ondrop="dropWord(event, 'word-sempurna')" id="blank-sempurna" class="inline-block w-28 h-8 bg-white border-2 border-dashed border-emerald-400 rounded-md mx-1 align-middle text-center font-bold text-emerald-800"></span>. 
+                        Siklus hidupnya diawali dari 
+                        <span ondragover="allowDrop(event)" ondrop="dropWord(event, 'word-telur')" id="blank-telur" class="inline-block w-28 h-8 bg-white border-2 border-dashed border-emerald-400 rounded-md mx-1 align-middle text-center font-bold text-emerald-800"></span> 
+                        yang menempel di daun tumbuhan. Setelah menetas, ia akan berubah menjadi 
+                        <span ondragover="allowDrop(event)" ondrop="dropWord(event, 'word-ulat')" id="blank-ulat" class="inline-block w-28 h-8 bg-white border-2 border-dashed border-emerald-400 rounded-md mx-1 align-middle text-center font-bold text-emerald-800"></span> 
+                        yang memakan daun-daunan. Selang beberapa hari, ulat membungkus dirinya menjadi 
+                        <span ondragover="allowDrop(event)" ondrop="dropWord(event, 'word-kepompong')" id="blank-kepompong" class="inline-block w-28 h-8 bg-white border-2 border-dashed border-emerald-400 rounded-md mx-1 align-middle text-center font-bold text-emerald-800"></span>. 
+                        Terakhir, dari dalam cangkang pelindung tersebut akan keluar 
+                        <span ondragover="allowDrop(event)" ondrop="dropWord(event, 'word-kupu')" id="blank-kupu" class="inline-block w-28 h-8 bg-white border-2 border-dashed border-emerald-400 rounded-md mx-1 align-middle text-center font-bold text-emerald-800"></span> 
+                        cantik yang siap terbang bebas.
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <button onclick="resetGame2()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-lg text-xs md:text-sm">Ulangi Game</button>
+                        <button onclick="checkGame2()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs md:text-sm">Cek Jawaban</button>
+                    </div>
+                </div>
+
+                <!-- 12. GAME EDUKASI 3: FILL THE WORDS -->
+                <div id="slide-12" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-7 h-7 text-purple-600"></i> Game 3: Isi Kata Rumpang
+                    </h2>
+                    <p class="text-slate-600 text-xs md:text-sm mb-4">Ketiklah kata yang tepat untuk mengisi kekosongan paragraf tentang daur hidup belalang di bawah!</p>
+
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 text-sm md:text-base leading-loose text-slate-800">
+                        Belalang merupakan contoh hewan yang mengalami metamorfosis 
+                        <input type="text" id="fill-tidak" placeholder="(tidak/sempurna)" class="w-28 text-center border-b-2 border-emerald-500 bg-white font-bold text-emerald-800 rounded px-1 outline-none focus:bg-emerald-100 transition-all">. 
+                        Hewan ini memulai kehidupannya dari fase 
+                        <input type="text" id="fill-telur" placeholder="(awal daur)" class="w-28 text-center border-b-2 border-emerald-500 bg-white font-bold text-emerald-800 rounded px-1 outline-none focus:bg-emerald-100 transition-all"> 
+                        yang disimpan induknya di dalam tanah. Ketika menetas, keluarlah belalang kecil tak bersayap yang dinamakan 
+                        <input type="text" id="fill-nimfa" placeholder="(hewan muda)" class="w-28 text-center border-b-2 border-emerald-500 bg-white font-bold text-emerald-800 rounded px-1 outline-none focus:bg-emerald-100 transition-all">. 
+                        Hewan muda ini sangat mirip dengan 
+                        <input type="text" id="fill-belalang" placeholder="(nama hewan)" class="w-28 text-center border-b-2 border-emerald-500 bg-white font-bold text-emerald-800 rounded px-1 outline-none focus:bg-emerald-100 transition-all"> 
+                        dewasa, namun ukurannya kecil. Seiring pertumbuhannya, mereka akan berganti kulit dan mulai menumbuhkan 
+                        <input type="text" id="fill-sayap" placeholder="(alat terbang)" class="w-28 text-center border-b-2 border-emerald-500 bg-white font-bold text-emerald-800 rounded px-1 outline-none focus:bg-emerald-100 transition-all"> 
+                        untuk melompat tinggi dan terbang.
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <button onclick="resetGame3()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-lg text-xs md:text-sm">Ulangi Game</button>
+                        <button onclick="checkGame3()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-lg text-xs md:text-sm">Cek Jawaban</button>
+                    </div>
+                </div>
+
+                <!-- 13. GAME EDUKASI 4: TEBAK GAMBAR (5 SOAL) -->
+                <div id="slide-13" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="gamepad-2" class="w-7 h-7 text-purple-600"></i> Game 4: Tebak Gambar Hewan / Fase
+                    </h2>
+                    <p class="text-slate-600 text-xs md:text-sm mb-4">Pilihlah jawaban yang benar sesuai dengan gambar/ilustrasi fase hewan yang ditampilkan!</p>
+
+                    <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-100 flex flex-col md:flex-row gap-8 items-center justify-between">
+                        <!-- Sisi Gambar SVG -->
+                        <div class="w-full md:w-1/2 flex items-center justify-center bg-white p-6 rounded-xl border border-emerald-100 shadow-sm min-h-[220px]">
+                            <div id="game4-img-container">
+                                <!-- Ilustrasi SVG dinamis masuk dari JS -->
+                            </div>
+                        </div>
+
+                        <!-- Sisi Pertanyaan & Pilihan Jawaban -->
+                        <div class="w-full md:w-1/2 space-y-4">
+                            <span class="bg-purple-100 text-purple-800 font-bold px-2.5 py-1 rounded text-xs">Soal <span id="game4-curr-num">1</span> dari 5</span>
+                            <h4 id="game4-question-text" class="text-base md:text-lg font-bold text-emerald-800">Apa nama fase hidup hewan pada gambar di samping?</h4>
+                            
+                            <!-- Pilihan Jawaban -->
+                            <div id="game4-options" class="flex flex-col gap-2">
+                                <!-- Tombol Pilihan Jawaban Dinamis dari JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. KUIS INTERAKTIF -->
+                <div id="slide-14" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-2 flex items-center gap-2">
+                        <i data-lucide="award" class="w-7 h-7 text-pink-600"></i> Kuis Evaluasi Interaktif
+                    </h2>
+                    <p class="text-slate-600 text-xs md:text-sm mb-6">Uji pemahamanmu dengan kuis ini! Kuis terdiri dari 5 Pilihan Ganda, 3 Drag & Drop Alur, dan 2 Benar/Salah.</p>
+
+                    <!-- KUIS CONTAINER -->
+                    <div id="quiz-area" class="bg-emerald-50/50 rounded-2xl p-5 border border-emerald-100 min-h-[350px] flex flex-col justify-between">
+                        
+                        <!-- Header Kuis (Skor / Progress) -->
+                        <div class="flex justify-between items-center pb-4 border-b border-emerald-100 text-xs font-bold text-slate-500">
+                            <span>Status Pertanyaan: <span id="quiz-progress-text" class="text-emerald-700">1 / 10</span></span>
+                            <span>Skor Sekarang: <span id="quiz-score-text" class="text-emerald-700">0</span></span>
+                        </div>
+
+                        <!-- Pertanyaan & Konten Aktif -->
+                        <div class="py-6 flex-grow flex flex-col justify-center">
+                            <div id="quiz-question-container">
+                                <!-- Isi kuis dinamis disuntik JS -->
+                            </div>
+                        </div>
+
+                        <!-- Tombol Konfirmasi / Navigasi Kuis -->
+                        <div class="flex justify-end pt-4 border-t border-emerald-100">
+                            <button id="btn-quiz-next" onclick="nextQuizStep()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-lg shadow-sm text-sm">Berikutnya</button>
+                        </div>
+                    </div>
+
+                    <!-- KUIS SELESAI CARD -->
+                    <div id="quiz-result-card" class="hidden bg-white rounded-2xl p-8 border-2 border-emerald-200 text-center space-y-6">
+                        <div class="flex justify-center">
+                            <i data-lucide="trophy" class="w-20 h-20 text-yellow-500 animate-bounce"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-emerald-800">Yayy! Kuis Selesai!</h3>
+                        <p class="text-slate-600 text-sm md:text-base">Kamu telah menyelesaikan seluruh rangkaian evaluasi kuis dengan luar biasa.</p>
+                        
+                        <div class="max-w-xs mx-auto bg-emerald-50 p-6 rounded-xl border border-emerald-100">
+                            <span class="block text-xs text-slate-500 font-semibold">SKOR AKHIR KAMU:</span>
+                            <span id="quiz-final-score" class="text-5xl font-extrabold text-emerald-600">0</span>
+                        </div>
+
+                        <!-- Kalimat Motivasi Dinamis -->
+                        <p id="quiz-motivation" class="text-emerald-700 font-semibold italic text-sm">Teruslah giat belajar untuk menggapai cita-citamu!</p>
+
+                        <button onclick="restartQuiz()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all text-sm inline-block">Coba Kuis Lagi</button>
+                    </div>
+                </div>
+
+                <!-- 15. RANGKUMAN -->
+                <div id="slide-15" class="slide">
+                    <h2 class="text-2xl font-extrabold text-emerald-800 mb-6 flex items-center gap-2">
+                        <i data-lucide="bookmark" class="w-7 h-7 text-blue-600"></i> Rangkuman Materi Kunci
+                    </h2>
+                    <p class="text-slate-600 text-sm mb-6">Berikut adalah poin-poin penting yang harus kamu ingat tentang Daur Hidup Makhluk Hidup:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white hover:bg-emerald-50/50 p-5 rounded-xl border border-emerald-100 shadow-sm transition-all flex gap-4">
+                            <div class="bg-emerald-500 text-white p-3 rounded-lg h-fit">
+                                <i data-lucide="activity" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-emerald-800 text-sm md:text-base">Definisi Daur Hidup</h4>
+                                <p class="text-slate-600 text-xs md:text-sm mt-1">Daur hidup adalah tahapan pertumbuhan dan perkembangan makhluk hidup dari lahir atau menetas hingga dewasa.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white hover:bg-emerald-50/50 p-5 rounded-xl border border-emerald-100 shadow-sm transition-all flex gap-4">
+                            <div class="bg-teal-500 text-white p-3 rounded-lg h-fit">
+                                <i data-lucide="x-circle" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-teal-800 text-sm md:text-base">Tanpa Metamorfosis</h4>
+                                <p class="text-slate-600 text-xs md:text-sm mt-1">Hewan yang tidak berganti bentuk secara ekstrem selama masa hidupnya. Contoh: kucing, anjing, ayam, burung.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white hover:bg-emerald-50/50 p-5 rounded-xl border border-emerald-100 shadow-sm transition-all flex gap-4">
+                            <div class="bg-sky-500 text-white p-3 rounded-lg h-fit">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sky-800 text-sm md:text-base">Metamorfosis Sempurna</h4>
+                                <p class="text-slate-600 text-xs md:text-sm mt-1">Mengalami empat tahap pertumbuhan (telur, larva/ulat, pupa/kepompong, dewasa). Contoh: kupu-kupu, katak, nyamuk.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white hover:bg-emerald-50/50 p-5 rounded-xl border border-emerald-100 shadow-sm transition-all flex gap-4">
+                            <div class="bg-orange-500 text-white p-3 rounded-lg h-fit">
+                                <i data-lucide="zap" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-orange-800 text-sm md:text-base">Metamorfosis Tidak Sempurna</h4>
+                                <p class="text-slate-600 text-xs md:text-sm mt-1">Siklus hidup tanpa fase kepompong. Hewan muda (nimfa) mirip dengan bentuk dewasa. Contoh: belalang, jangkrik, kecoak.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16. REFERENSI & PENUTUP -->
+                <div id="slide-16" class="slide">
+                    <div class="text-center max-w-2xl mx-auto space-y-6 py-6">
+                        <h2 class="text-3xl font-black text-emerald-800">Referensi & Sumber Belajar</h2>
+                        <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                            Buku Panduan Guru & Siswa IPAS Kelas III Kurikulum Merdeka, Kementerian Pendidikan Kebudayaan Riset dan Teknologi Republik Indonesia.
+                        </p>
+                        
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 text-xs md:text-sm space-y-1 text-slate-600">
+                            <p class="font-bold text-emerald-800">Media Pembelajaran Interaktif Mandiri</p>
+                            <p>Dibuat oleh: <strong>I Gede Yokta Pradana</strong></p>
+                            <p>© 2026 Hak Cipta Dilindungi Undang-Undang</p>
+                        </div>
+
+                        <div class="pt-4">
+                            <button onclick="goToSlide(1)" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-xl shadow-md hover:shadow-emerald-200 transition-all text-sm flex items-center gap-2 mx-auto">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Mulai Dari Awal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- LOWER NAVIGATION FOOTER -->
+            <footer id="nav-footer" class="bg-slate-50 border-t border-slate-100 px-4 py-4 flex justify-between items-center rounded-b-2xl">
+                <button id="btn-prev" onclick="prevSlide()" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl text-xs md:text-sm flex items-center gap-1.5 transition-all">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                </button>
+                <div class="text-slate-500 font-bold text-xs md:text-sm select-none">
+                    Slide <span id="slide-num">1</span> dari 16
+                </div>
+                <button id="btn-next" onclick="nextSlide()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                    Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- CUSTOM MESSAGE BOX FOR NOTIFICATIONS (REPLACING BROWSER ALERT) -->
+    <div id="msg-box" class="fixed inset-0 bg-slate-950/40 backdrop-blur-xs z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-emerald-50 flex flex-col items-center text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div id="msg-icon-bg" class="bg-emerald-100 text-emerald-600 p-4 rounded-full">
+                <i data-lucide="info" id="msg-icon" class="w-10 h-10"></i>
+            </div>
+            <h4 id="msg-title" class="text-xl font-bold text-slate-800">Judul Pesan</h4>
+            <p id="msg-body" class="text-slate-600 text-sm">Ini adalah deskripsi pesan.</p>
+            <button onclick="closeMsgBox()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl transition-all">Oke, Mengerti</button>
+        </div>
+    </div>
+
+    <!-- AUDIO EFFECTS -->
+    <audio id="snd-success" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-84.wav" preload="auto"></audio>
+    <audio id="snd-error" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 16;
+        
+        // Ensure Lucide Icons Rendered
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateSimulation(1); // Set Awal Simulasi
+            initGame4(); // Set Awal Game 4 (Tebak Gambar)
+            initQuiz(); // Set Awal Kuis
+        });
+
+        // FULLSCREEN/MAXIMIZE FUNCTION
+        function toggleFullscreen() {
+            const container = document.documentElement;
+            const icon = document.getElementById('fullscreen-icon');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().then(() => {
+                    icon.setAttribute('data-lucide', 'minimize');
+                    lucide.createIcons();
+                }).catch(err => {
+                    showMsg("Gagal", "Tidak dapat merubah ke mode layar penuh: " + err.message, "error");
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    icon.setAttribute('data-lucide', 'maximize');
+                    lucide.createIcons();
+                });
+            }
+        }
+
+        // NAVIGATION SYSTEM
+        function goToSlide(slideIndex) {
+            // Hilangkan status active lama
+            document.querySelector(`.slide.active`)?.classList.remove('active');
+            
+            // Set slide baru
+            currentSlide = slideIndex;
+            const targetSlide = document.getElementById(`slide-${currentSlide}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+            }
+
+            // Update Progress Bar & Info Number
+            const percent = (currentSlide / totalSlides) * 100;
+            document.getElementById('progress-indicator').style.width = `${percent}%`;
+            document.getElementById('slide-num').innerText = currentSlide;
+
+            // Kontrol Tampilan Tombol Menu Utama di Header
+            const menuHeaderBtn = document.getElementById('btn-menu-header');
+            if (currentSlide > 2) {
+                menuHeaderBtn.classList.remove('hidden');
+            } else {
+                menuHeaderBtn.classList.add('hidden');
+            }
+
+            // Kontrol Tampilan Tombol Prev/Next di Footer
+            const prevBtn = document.getElementById('btn-prev');
+            const nextBtn = document.getElementById('btn-next');
+            const navFooter = document.getElementById('nav-footer');
+
+            if (currentSlide === 1) {
+                navFooter.classList.add('hidden');
+            } else {
+                navFooter.classList.remove('hidden');
+            }
+
+            if (currentSlide === totalSlides) {
+                nextBtn.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                nextBtn.classList.remove('opacity-50', 'pointer-events-none');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // CUSTOM NOTIFICATION DIALOGUE
+        function showMsg(title, body, type = 'info') {
+            const msgBox = document.getElementById('msg-box');
+            const iconBg = document.getElementById('msg-icon-bg');
+            const icon = document.getElementById('msg-icon');
+            
+            document.getElementById('msg-title').innerText = title;
+            document.getElementById('msg-body').innerText = body;
+
+            // Sound Effect
+            const successSnd = document.getElementById('snd-success');
+            const errorSnd = document.getElementById('snd-error');
+
+            if (type === 'success') {
+                iconBg.className = "bg-emerald-100 text-emerald-600 p-4 rounded-full";
+                icon.setAttribute('data-lucide', 'smile');
+                if(successSnd) successSnd.play();
+            } else if (type === 'error') {
+                iconBg.className = "bg-rose-100 text-rose-600 p-4 rounded-full";
+                icon.setAttribute('data-lucide', 'frown');
+                if(errorSnd) errorSnd.play();
+            } else {
+                iconBg.className = "bg-sky-100 text-sky-600 p-4 rounded-full";
+                icon.setAttribute('data-lucide', 'info');
+            }
+
+            msgBox.classList.remove('hidden');
+            msgBox.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeMsgBox() {
+            const msgBox = document.getElementById('msg-box');
+            msgBox.classList.add('hidden');
+            msgBox.classList.remove('flex');
+        }
+
+
+        // ==========================================
+        // SIMULASI INTERAKTIF (SLIDE 9)
+        // ==========================================
+        const simData = {
+            1: {
+                title: "Fase 1: Telur Kupu-kupu",
+                desc: "Induk kupu-kupu menaruh telur kecilnya di atas permukaan daun hijau agar ketika menetas, ulat kecil langsung mendapatkan makanan segar.",
+                svg: `<svg viewBox="0 0 100 100" class="w-32 h-32 animate-pulse">
+                        <ellipse cx="50" cy="50" rx="30" ry="25" fill="#34d399" />
+                        <path d="M20 50 Q50 65, 80 50" stroke="#059669" stroke-width="2" fill="none"/>
+                        <circle cx="40" cy="40" r="5" fill="#fef08a" stroke="#ca8a04"/>
+                        <circle cx="50" cy="45" r="4" fill="#fef08a" stroke="#ca8a04"/>
+                        <circle cx="45" cy="48" r="4.5" fill="#fef08a" stroke="#ca8a04"/>
+                      </svg>`
+            },
+            2: {
+                title: "Fase 2: Ulat (Larva)",
+                desc: "Ulat rakus yang baru menetas bekerja sangat giat mengunyah daun dedaunan hijau agar badannya membesar dan penuh energi.",
+                svg: `<svg viewBox="0 0 100 100" class="w-32 h-32">
+                        <path d="M20 70 Q50 65, 80 70" stroke="#34d399" stroke-width="6" fill="none" class="animate-bounce"/>
+                        <!-- Ulat Cacing hijau -->
+                        <circle cx="25" cy="50" r="8" fill="#10b981"/>
+                        <circle cx="35" cy="48" r="8" fill="#059669"/>
+                        <circle cx="45" cy="51" r="8" fill="#10b981"/>
+                        <circle cx="55" cy="49" r="8" fill="#059669"/>
+                        <circle cx="65" cy="50" r="7" fill="#10b981"/>
+                        <circle cx="73" cy="51" r="6" fill="#059669"/>
+                        <!-- Mata & Antena -->
+                        <circle cx="21" cy="47" r="1.5" fill="#fff"/>
+                        <path d="M25 42 Q23 35, 18 36" stroke="#047857" stroke-width="1.5" fill="none"/>
+                      </svg>`
+            },
+            3: {
+                title: "Fase 3: Kepompong (Pupa)",
+                desc: "Ulat membungkus dirinya dengan aman menjadi kepompong. Di dalam masa tidur ini, ia merubah seluruh susunan tubuhnya menjadi cantik.",
+                svg: `<svg viewBox="0 0 100 100" class="w-32 h-32">
+                        <!-- Batang pohon -->
+                        <rect x="10" y="10" width="80" height="10" rx="4" fill="#78350f" />
+                        <!-- Kepompong menggantung -->
+                        <path d="M50 20 Q40 40, 50 80 Q60 40, 50 20 Z" fill="#4d7c0f" stroke="#3f6212" stroke-width="2" class="origin-top animate-[wiggle_4s_ease-in-out_infinite]"/>
+                        <path d="M47 30 L53 30 M45 42 L55 42 M46 54 L54 54" stroke="#27272a" stroke-width="1.5"/>
+                      </svg>`
+            },
+            4: {
+                title: "Fase 4: Kupu-kupu Dewasa",
+                desc: "Dari dalam kepompong, lahirlah seekor kupu-kupu yang sangat menakjubkan dengan sayap indah berwarna-warni yang siap melompat terbang tinggi.",
+                svg: `<svg viewBox="0 0 100 100" class="w-32 h-32">
+                        <g class="animate-bounce">
+                            <!-- Sayap Kiri -->
+                            <path d="M 50 50 C 30 20, 10 30, 40 60 C 10 80, 20 100, 50 70 Z" fill="#3b82f6" opacity="0.9"/>
+                            <!-- Sayap Kanan -->
+                            <path d="M 50 50 C 70 20, 90 30, 60 60 C 90 80, 80 100, 50 70 Z" fill="#3b82f6" opacity="0.9"/>
+                            <!-- Tubuh -->
+                            <ellipse cx="50" cy="55" rx="4" ry="25" fill="#1e1b4b"/>
+                            <circle cx="50" cy="27" r="5" fill="#1e1b4b"/>
+                        </g>
+                      </svg>`
+            }
+        };
+
+        function updateSimulation(value) {
+            const val = parseInt(value);
+            // Sync slider & data
+            document.getElementById('sim-slider').value = val;
+            
+            const stage = simData[val];
+            document.getElementById('sim-illustration-box').innerHTML = stage.svg;
+            document.getElementById('sim-stage-title').innerText = stage.title;
+            document.getElementById('sim-stage-desc').innerText = stage.desc;
+
+            // Update Class Button Active
+            const buttons = document.querySelectorAll('.sim-btn');
+            buttons.forEach((btn, index) => {
+                if (index === (val - 1)) {
+                    btn.className = "sim-btn bg-emerald-500 text-white font-bold p-2 text-xs rounded-lg shadow hover:bg-emerald-600";
+                } else {
+                    btn.className = "sim-btn bg-emerald-100 text-emerald-800 font-bold p-2 text-xs rounded-lg hover:bg-emerald-200";
+                }
+            });
+        }
+
+
+        // ==========================================
+        // GAME EDUKASI 1: DRAG & DROP
+        // ==========================================
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev, type) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedEl = document.getElementById(data);
+            
+            // Check target element dropzone inner
+            let targetZone = ev.target;
+            if (!targetZone.classList.contains('dropzone-inner')) {
+                targetZone = ev.target.closest('.dropzone-inner') || ev.target.querySelector('.dropzone-inner');
+            }
+
+            if (targetZone) {
+                targetZone.appendChild(draggedEl);
+            }
+        }
+
+        function resetGame1() {
+            const container = document.getElementById('drag-items-container');
+            const items = ['drag-kucing', 'drag-kupu', 'drag-belalang', 'drag-katak', 'drag-ayam'];
+            items.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) container.appendChild(el);
+            });
+            showMsg("Game Direset", "Silakan atur kembali pencocokan hewan!", "info");
+        }
+
+        function checkGame1() {
+            let correctCount = 0;
+            const checks = [
+                { id: 'drag-kucing', target: 'zone-tanpa' },
+                { id: 'drag-ayam', target: 'zone-tanpa' },
+                { id: 'drag-kupu', target: 'zone-sempurna' },
+                { id: 'drag-katak', target: 'zone-sempurna' },
+                { id: 'drag-belalang', target: 'zone-tidak-sempurna' }
+            ];
+
+            checks.forEach(chk => {
+                const el = document.getElementById(chk.id);
+                if (el && el.parentElement && el.parentElement.id === chk.target) {
+                    correctCount++;
+                }
+            });
+
+            if (correctCount === 5) {
+                showMsg("Luar Biasa!", "Hebat sekali! Semua hewan berhasil ditaruh ke wadah daur hidup yang benar!", "success");
+            } else {
+                showMsg("Masih Ada Salah", `Kamu baru menjawab ${correctCount} dari 5 dengan benar. Coba tata kembali ya!`, "error");
+            }
+        }
+
+
+        // ==========================================
+        // GAME EDUKASI 2: DRAG THE WORDS
+        // ==========================================
+        function dragWord(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropWord(ev, expectedId) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.setData("text", ev.dataTransfer.getData("text"));
+            const dragId = ev.dataTransfer.getData("text");
+            const draggedWord = document.getElementById(dragId);
+            
+            // Target Blank Box
+            const blankBox = ev.target;
+            if (blankBox.innerHTML === "") {
+                blankBox.appendChild(draggedWord);
+                blankBox.setAttribute('data-assigned-word', dragId);
+            }
+        }
+
+        function resetGame2() {
+            const pool = document.getElementById('drag-words-pool');
+            const words = ['word-telur', 'word-ulat', 'word-kepompong', 'word-sempurna', 'word-kupu'];
+            words.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) pool.appendChild(el);
+            });
+            const blanks = ['blank-sempurna', 'blank-telur', 'blank-ulat', 'blank-kepompong', 'blank-kupu'];
+            blanks.forEach(id => {
+                const blank = document.getElementById(id);
+                if(blank) {
+                    blank.innerHTML = "";
+                    blank.removeAttribute('data-assigned-word');
+                }
+            });
+            showMsg("Game Direset", "Silakan letakkan kata kembali ke kotak kosong!", "info");
+        }
+
+        function checkGame2() {
+            let correctCount = 0;
+            const checks = [
+                { blank: 'blank-sempurna', word: 'word-sempurna' },
+                { blank: 'blank-telur', word: 'word-telur' },
+                { blank: 'blank-ulat', word: 'word-ulat' },
+                { blank: 'blank-kepompong', word: 'word-kepompong' },
+                { blank: 'blank-kupu', word: 'word-kupu' }
+            ];
+
+            checks.forEach(chk => {
+                const blank = document.getElementById(chk.blank);
+                if (blank && blank.getAttribute('data-assigned-word') === chk.word) {
+                    correctCount++;
+                }
+            });
+
+            if (correctCount === 5) {
+                showMsg("Luar Biasa!", "Kerja yang bagus! Susunan paragraf Daur Hidup Kupu-kupu sudah lengkap dan benar!", "success");
+            } else {
+                showMsg("Kurang Tepat", `Kamu baru melengkapi ${correctCount} dari 5 kata dengan benar. Silakan periksa kembali urutan fasenya!`, "error");
+            }
+        }
+
+
+        // ==========================================
+        // GAME EDUKASI 3: FILL THE WORDS
+        // ==========================================
+        const game3Keys = {
+            'fill-tidak': 'tidak',
+            'fill-telur': 'telur',
+            'fill-nimfa': 'nimfa',
+            'fill-belalang': 'belalang',
+            'fill-sayap': 'sayap'
+        };
+
+        function resetGame3() {
+            Object.keys(game3Keys).forEach(id => {
+                document.getElementById(id).value = "";
+            });
+            showMsg("Game Direset", "Silakan ketik ulang isian kata rumpang!", "info");
+        }
+
+        function checkGame3() {
+            let correctCount = 0;
+            Object.keys(game3Keys).forEach(id => {
+                const inputVal = document.getElementById(id).value.trim().toLowerCase();
+                if (inputVal === game3Keys[id]) {
+                    correctCount++;
+                    document.getElementById(id).classList.remove('border-rose-500');
+                    document.getElementById(id).classList.add('border-emerald-500');
+                } else {
+                    document.getElementById(id).classList.add('border-rose-500', 'shake');
+                    setTimeout(() => {
+                        document.getElementById(id).classList.remove('shake');
+                    }, 500);
+                }
+            });
+
+            if (correctCount === 5) {
+                showMsg("Selamat!", "Sangat cerdas! Seluruh isian tentang metamorfosis belalang sudah benar!", "success");
+            } else {
+                showMsg("Jawaban Salah", `Ada beberapa isian yang masih salah (ditandai dengan garis merah). Silakan cek kembali.`, "error");
+            }
+        }
+
+
+        // ==========================================
+        // GAME EDUKASI 4: TEBAK GAMBAR
+        // ==========================================
+        const game4Data = [
+            {
+                svg: `<svg viewBox="0 0 100 100" class="w-28 h-28"><circle cx="50" cy="50" r="14" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/><circle cx="58" cy="46" r="3" fill="#ca8a04"/></svg>`,
+                question: "Fase daur hidup apa yang ditunjukkan oleh gambar bulat kekuningan ini?",
+                options: ["Telur kupu-kupu", "Kepompong", "Ulat bulu", "Katak dewasa"],
+                correct: 0
+            },
+            {
+                svg: `<svg viewBox="0 0 100 100" class="w-28 h-28"><path d="M50 10 Q30 30, 50 80 Q70 30, 50 10 Z" fill="#b45309"/></svg>`,
+                question: "Fase tidur yang menggantung di dahan kayu pada metamorfosis sempurna adalah...",
+                options: ["Ulat", "Nimfa", "Kepompong (Pupa)", "Imago"],
+                correct: 2
+            },
+            {
+                svg: `<svg viewBox="0 0 100 100" class="w-28 h-28"><ellipse cx="50" cy="50" rx="30" ry="12" fill="#34d399"/><circle cx="70" cy="45" r="4" fill="#047857"/></svg>`,
+                question: "Bentuk belalang kecil tanpa sayap yang baru menetas disebut...",
+                options: ["Ulat", "Nimfa", "Kepompong", "Kecoak"],
+                correct: 1
+            },
+            {
+                svg: `<svg viewBox="0 0 100 100" class="w-28 h-28"><circle cx="40" cy="50" r="15" fill="#f59e0b"/><circle cx="60" cy="30" r="10" fill="#f59e0b"/><polygon points="50,22 58,5 64,20" fill="#b45309"/></svg>`,
+                question: "Hewan mamalia ini lahir langsung menyerupai bentuk induknya, yaitu fase anak...",
+                options: ["Kupu-kupu", "Belalang", "Kucing", "Katak"],
+                correct: 2
+            },
+            {
+                svg: `<svg viewBox="0 0 100 100" class="w-28 h-28"><path d="M30 50 C20 30, 10 30, 30 60" stroke="#3b82f6" stroke-width="4"/><path d="M50 50 C60 30, 70 30, 50 60" stroke="#3b82f6" stroke-width="4"/><ellipse cx="40" cy="55" rx="3" ry="15" fill="#1e1b4b"/></svg>`,
+                question: "Fase akhir dari metamorfosis kupu-kupu yang memiliki sayap indah disebut...",
+                options: ["Larva", "Pupa", "Kepompong", "Kupu-kupu dewasa"],
+                correct: 3
+            }
+        ];
+
+        let game4Index = 0;
+
+        function initGame4() {
+            const data = game4Data[game4Index];
+            document.getElementById('game4-curr-num').innerText = game4Index + 1;
+            document.getElementById('game4-img-container').innerHTML = data.svg;
+            document.getElementById('game4-question-text').innerText = data.question;
+
+            const optionsContainer = document.getElementById('game4-options');
+            optionsContainer.innerHTML = "";
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold p-3 rounded-xl text-left text-xs md:text-sm transition-all";
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                btn.onclick = () => checkGame4(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkGame4(selectedIdx) {
+            const data = game4Data[game4Index];
+            if (selectedIdx === data.correct) {
+                showMsg("Benar Sekali!", "Wah pintarnya! Jawaban kamu tepat.", "success");
+                if (game4Index < 4) {
+                    game4Index++;
+                    setTimeout(() => {
+                        initGame4();
+                    }, 1500);
+                } else {
+                    setTimeout(() => {
+                        showMsg("Tebak Gambar Selesai!", "Kamu berhasil menyelesaikan seluruh permainan tebak gambar dengan hebat!", "success");
+                    }, 1200);
+                }
+            } else {
+                showMsg("Jawaban Salah", "Kurang tepat, yuk dipikirkan lagi jawaban yang benar!", "error");
+            }
+        }
+
+
+        // ==========================================
+        // KUIS EVALUASI INTERAKTIF (SLIDE 14)
+        // ==========================================
+        const quizData = [
+            // 5 Pilihan Ganda (1-5)
+            {
+                type: 'pilgan',
+                q: "Metamorfosis yang melewati tahapan kepompong (pupa) disebut metamorfosis...",
+                opts: ["Tidak Sempurna", "Sempurna", "Gagal", "Alami"],
+                ans: 1,
+                exp: "Metamorfosis Sempurna dicirikan dengan adanya fase kepompong (pupa) yang merubah seluruh organ tubuh hewan."
+            },
+            {
+                type: 'pilgan',
+                q: "Contoh hewan yang daur hidupnya tidak mengalami metamorfosis sama sekali adalah...",
+                opts: ["Kupu-kupu", "Belalang", "Katak", "Kucing"],
+                ans: 3,
+                exp: "Kucing melahirkan anak yang mirip induknya, lalu tumbuh membesar tanpa mengalami metamorfosis."
+            },
+            {
+                type: 'pilgan',
+                q: "Belalang muda yang baru menetas dari telur disebut...",
+                opts: ["Larva", "Nimfa", "Pupa", "Imago"],
+                ans: 1,
+                exp: "Nimfa adalah sebutan bagi hewan muda pada metamorfosis tidak sempurna yang bentuknya mirip dengan induk dewasa tetapi belum bersayap."
+            },
+            {
+                type: 'pilgan',
+                q: "Hewan di bawah ini yang mengalami metamorfosis sempurna adalah...",
+                opts: ["Kecoak dan Belalang", "Ayam dan Kucing", "Kupu-kupu dan Katak", "Anjing dan Kambing"],
+                ans: 2,
+                exp: "Kupu-kupu (telur -> ulat -> kepompong -> kupu-kupu) dan Katak (telur -> berudu -> katak muda -> katak dewasa) merupakan metamorfosis sempurna."
+            },
+            {
+                type: 'pilgan',
+                q: "Mengapa ulat makan sangat banyak sebelum masuk ke dalam kepompong?",
+                opts: ["Karena iseng saja", "Mengumpulkan energi cadangan makanan selama bertapa", "Takut kehabisan makanan", "Untuk merusak tanaman warga sekitar"],
+                ans: 1,
+                exp: "Selama berada di fase kepompong, pupa tidak makan apa-apa, sehingga mereka butuh cadangan makanan tebal saat masih jadi ulat."
+            },
+
+            // 3 Drag & Drop Alur Siklus (6-8)
+            {
+                type: 'drag-alur',
+                q: "Susun alur perkembangan metamorfosis belalang dari awal!",
+                slots: ["Fase 1", "Fase 2", "Fase 3"],
+                elements: [
+                    { id: "qa1", val: "Nimfa", step: 1 },
+                    { id: "qa2", val: "Telur", step: 0 },
+                    { id: "qa3", val: "Belalang Dewasa", step: 2 }
+                ],
+                exp: "Alur metamorfosis tidak sempurna belalang: Telur -> Nimfa -> Belalang Dewasa."
+            },
+            {
+                type: 'drag-alur',
+                q: "Susun alur fase kupu-kupu sebelum menetas menjadi dewasa!",
+                slots: ["Fase 1", "Fase 2", "Fase 3"],
+                elements: [
+                    { id: "qb1", val: "Ulat (Larva)", step: 1 },
+                    { id: "qb2", val: "Telur", step: 0 },
+                    { id: "qb3", val: "Kepompong", step: 2 }
+                ],
+                exp: "Sebelum kupu-kupu dewasa terbang, ia wajib melewati fase: Telur -> Ulat (Larva) -> Kepompong."
+            },
+            {
+                type: 'drag-alur',
+                q: "Urutkan pertumbuhan perkembangan ayam tanpa metamorfosis!",
+                slots: ["Fase 1", "Fase 2", "Fase 3"],
+                elements: [
+                    { id: "qc1", val: "Telur Ayam", step: 0 },
+                    { id: "qc2", val: "Ayam Dewasa", step: 2 },
+                    { id: "qc3", val: "Anak Ayam", step: 1 }
+                ],
+                exp: "Ayam tumbuh tanpa metamorfosis: dari telur menetas jadi anak ayam lalu tumbuh besar menjadi ayam dewasa."
+            },
+
+            // 2 Benar / Salah (9-10)
+            {
+                type: 'benarsalah',
+                q: "Kecoak merupakan salah satu contoh hewan yang memiliki metamorfosis sempurna karena bentuk anakannya sama sekali berbeda dengan induknya.",
+                ans: false,
+                exp: "Pernyataan Salah. Kecoak mengalami metamorfosis TIDAK sempurna karena kecoak muda (nimfa) sudah mirip dengan induknya."
+            },
+            {
+                type: 'benarsalah',
+                q: "Selama fase kepompong (pupa), hewan tidak melakukan aktivitas makan dan cenderung berdiam diri di tempat tertutup.",
+                ans: true,
+                exp: "Pernyataan Benar. Fase pupa merupakan masa istirahat di mana sel tubuh diatur ulang tanpa aktivitas makan luar."
+            }
+        ];
+
+        let quizIndex = 0;
+        let score = 0;
+        let quizAnswersSelected = null;
+
+        function initQuiz() {
+            quizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            renderQuizStep();
+        }
+
+        function renderQuizStep() {
+            const data = quizData[quizIndex];
+            document.getElementById('quiz-progress-text').innerText = `${quizIndex + 1} / 10`;
+            document.getElementById('quiz-score-text').innerText = score;
+
+            const qContainer = document.getElementById('quiz-question-container');
+            qContainer.innerHTML = "";
+
+            quizAnswersSelected = null; // reset
+
+            // 1. Tipe Soal Pilihan Ganda
+            if (data.type === 'pilgan') {
+                qContainer.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="text-base md:text-lg font-bold text-emerald-800">${data.q}</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="pilgan-opts-grid">
+                            ${data.opts.map((opt, idx) => `
+                                <button onclick="selectPilgan(${idx})" id="opt-${idx}" class="q-opt-btn bg-white hover:bg-emerald-50 text-slate-700 border border-slate-200 font-semibold p-3 rounded-xl text-left text-xs md:text-sm transition-all">
+                                    ${String.fromCharCode(65 + idx)}. ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 2. Tipe Soal Drag & Drop Alur
+            else if (data.type === 'drag-alur') {
+                qContainer.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="text-base md:text-lg font-bold text-emerald-800">${data.q}</h4>
+                        <p class="text-slate-500 text-xs italic">Tarik kartu di bawah ke slot alur yang tepat!</p>
+                        
+                        <!-- Element Draggable -->
+                        <div class="bg-purple-50 p-3 rounded-xl border border-purple-200 flex gap-2 justify-center flex-wrap" id="quiz-drag-elements">
+                            ${data.elements.map(el => `
+                                <span draggable="true" ondragstart="dragQuizAlur(event)" id="${el.id}" data-step="${el.step}" class="bg-white border-2 border-purple-300 px-3.5 py-1.5 rounded-lg font-bold text-purple-800 shadow-sm cursor-grab active:cursor-grabbing text-xs">
+                                    ${el.val}
+                                </span>
+                            `).join('')}
+                        </div>
+
+                        <!-- Slots Penampung -->
+                        <div class="grid grid-cols-3 gap-3">
+                            ${data.slots.map((slot, idx) => `
+                                <div ondragover="allowDrop(event)" ondrop="dropQuizAlur(event, ${idx})" class="bg-white border-2 border-dashed border-emerald-300 p-3 rounded-xl flex flex-col items-center justify-center min-h-[80px]" id="slot-${idx}">
+                                    <span class="text-xs text-emerald-800 font-bold mb-1">${slot}</span>
+                                    <div class="slot-inner flex justify-center w-full" id="inner-slot-${idx}"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3. Tipe Soal Benar / Salah
+            else if (data.type === 'benarsalah') {
+                qContainer.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="text-base md:text-lg font-bold text-emerald-800">${data.q}</h4>
+                        <div class="flex gap-4 justify-center py-2">
+                            <button onclick="selectBenarSalah(true)" id="btn-bs-true" class="bg-white hover:bg-emerald-100 text-emerald-800 border-2 border-emerald-200 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all">
+                                <i data-lucide="check-circle" class="w-8 h-8 text-emerald-600"></i> BENAR
+                            </button>
+                            <button onclick="selectBenarSalah(false)" id="btn-bs-false" class="bg-white hover:bg-rose-100 text-rose-800 border-2 border-rose-200 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all">
+                                <i data-lucide="x-circle" class="w-8 h-8 text-rose-600"></i> SALAH
+                            </button>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        // Action Handlers
+        function selectPilgan(idx) {
+            quizAnswersSelected = idx;
+            document.querySelectorAll('.q-opt-btn').forEach(btn => {
+                btn.className = "q-opt-btn bg-white hover:bg-emerald-50 text-slate-700 border border-slate-200 font-semibold p-3 rounded-xl text-left text-xs md:text-sm transition-all";
+            });
+            document.getElementById(`opt-${idx}`).className = "q-opt-btn bg-emerald-100 border-emerald-500 text-emerald-900 font-extrabold p-3 rounded-xl text-left text-xs md:text-sm transition-all";
+        }
+
+        function dragQuizAlur(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropQuizAlur(ev, slotIdx) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedEl = document.getElementById(data);
+            const targetSlot = document.getElementById(`inner-slot-${slotIdx}`);
+
+            if (targetSlot && targetSlot.children.length === 0) {
+                targetSlot.appendChild(draggedEl);
+            }
+        }
+
+        function selectBenarSalah(val) {
+            quizAnswersSelected = val;
+            const bBtn = document.getElementById('btn-bs-true');
+            const sBtn = document.getElementById('btn-bs-false');
+
+            bBtn.className = "bg-white hover:bg-emerald-100 text-emerald-800 border-2 border-emerald-200 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all";
+            sBtn.className = "bg-white hover:bg-rose-100 text-rose-800 border-2 border-rose-200 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all";
+
+            if (val === true) {
+                bBtn.className = "bg-emerald-500 text-white border-emerald-600 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all shadow-md";
+            } else {
+                sBtn.className = "bg-rose-500 text-white border-rose-600 px-8 py-4 rounded-xl font-bold flex flex-col items-center gap-2 transition-all shadow-md";
+            }
+        }
+
+        // VALIDATION STEP & NEXT
+        function nextQuizStep() {
+            const data = quizData[quizIndex];
+            let isCorrect = false;
+
+            // 1. Validasi Pilgan
+            if (data.type === 'pilgan') {
+                if (quizAnswersSelected === null) {
+                    showMsg("Peringatan", "Silakan pilih salah satu jawaban terlebih dahulu!", "error");
+                    return;
+                }
+                if (quizAnswersSelected === data.ans) {
+                    isCorrect = true;
+                    score += 10;
+                }
+            }
+
+            // 2. Validasi Drag Alur
+            else if (data.type === 'drag-alur') {
+                let filledSlots = 0;
+                let correctPlacements = 0;
+
+                for (let idx = 0; idx < 3; idx++) {
+                    const slot = document.getElementById(`inner-slot-${idx}`);
+                    if (slot && slot.children.length > 0) {
+                        filledSlots++;
+                        const step = parseInt(slot.children[0].getAttribute('data-step'));
+                        if (step === idx) {
+                            correctPlacements++;
+                        }
+                    }
+                }
+
+                if (filledSlots < 3) {
+                    showMsg("Peringatan", "Lengkapi seluruh pengisian slot alur terlebih dahulu!", "error");
+                    return;
+                }
+
+                if (correctPlacements === 3) {
+                    isCorrect = true;
+                    score += 10;
+                }
+            }
+
+            // 3. Validasi Benar Salah
+            else if (data.type === 'benarsalah') {
+                if (quizAnswersSelected === null) {
+                    showMsg("Peringatan", "Silakan pilih BENAR atau SALAH terlebih dahulu!", "error");
+                    return;
+                }
+                if (quizAnswersSelected === data.ans) {
+                    isCorrect = true;
+                    score += 10;
+                }
+            }
+
+            // Berikan Feedback Langsung
+            if (isCorrect) {
+                showMsg("Jawaban Benar!", data.exp, "success");
+            } else {
+                showMsg("Jawaban Salah", data.exp, "error");
+            }
+
+            // Pindah Pertanyaan / Finish
+            setTimeout(() => {
+                closeMsgBox();
+                if (quizIndex < 9) {
+                    quizIndex++;
+                    renderQuizStep();
+                } else {
+                    showQuizResults();
+                }
+            }, 3000);
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-area').classList.add('hidden');
+            const resultCard = document.getElementById('quiz-result-card');
+            resultCard.classList.remove('hidden');
+
+            document.getElementById('quiz-final-score').innerText = score;
+
+            // Atur Kalimat Motivasi
+            const mot = document.getElementById('quiz-motivation');
+            if (score >= 80) {
+                mot.innerText = "Luar biasa hebat! Kamu sudah sangat menguasai materi Daur Hidup Makhluk Hidup dengan sempurna!";
+            } else if (score >= 50) {
+                mot.innerText = "Bagus sekali! Kamu sudah memahami materi dengan baik, ayo tingkatkan belajarmu agar dapat nilai sempurna!";
+            } else {
+                mot.innerText = "Jangan berkecil hati! Ayo ulangi membaca materi dan kuis ini sekali lagi, kamu pasti bisa!";
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+    </script>
+</body>
+</html>
